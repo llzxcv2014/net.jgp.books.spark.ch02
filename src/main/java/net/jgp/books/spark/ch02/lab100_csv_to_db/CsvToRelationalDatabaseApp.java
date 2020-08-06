@@ -17,6 +17,14 @@ import org.apache.spark.sql.SparkSession;
  */
 public class CsvToRelationalDatabaseApp {
 
+  private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/movies?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true";
+
+  private static final String MYSQL_USERNAME = "root";
+
+  private static final String MYSQL_PASSWORD = "123456";
+
+  private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
+
   /**
    * main() is your entry point to the application.
    * 
@@ -67,14 +75,14 @@ public class CsvToRelationalDatabaseApp {
     // Properties to connect to the database, the JDBC driver is part of our
     // pom.xml
     Properties prop = new Properties();
-    prop.setProperty("driver", "org.postgresql.Driver");
-    prop.setProperty("user", "jgp");
-    prop.setProperty("password", "Spark<3Java");
+    prop.setProperty("driver", MYSQL_DRIVER);
+    prop.setProperty("user", MYSQL_USERNAME);
+    prop.setProperty("password", MYSQL_PASSWORD);
 
     // Write in a table called ch02
     df.write()
         .mode(SaveMode.Overwrite)
-        .jdbc(dbConnectionUrl, "ch02", prop);
+        .jdbc(MYSQL_URL, "authors", prop);
 
     System.out.println("Process complete");
   }
